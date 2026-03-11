@@ -49,6 +49,14 @@ func (c *Client) SetJSON(
 	return nil
 }
 
+// Expire sets the TTL for an existing key.
+func (c *Client) Expire(ctx context.Context, key string, ttl time.Duration) error {
+	if err := c.rdb.Expire(ctx, key, ttl).Err(); err != nil {
+		return &Error{Op: "Expire", Key: key, Err: err}
+	}
+	return nil
+}
+
 // Delete removes key.
 func (c *Client) Delete(ctx context.Context, key string) error {
 	if err := c.rdb.Del(ctx, key).Err(); err != nil {
