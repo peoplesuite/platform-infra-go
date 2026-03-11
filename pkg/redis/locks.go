@@ -18,8 +18,3 @@ func (c *Client) AcquireLock(
 func (c *Client) ReleaseLock(ctx context.Context, key string) error {
 	return c.rdb.Del(ctx, key).Err()
 }
-
-// Expire sets the TTL on an existing key.
-func (c *Client) Expire(ctx context.Context, key string, ttl time.Duration) error {
-	return c.rdb.Expire(ctx, key, ttl).Err()
-}
