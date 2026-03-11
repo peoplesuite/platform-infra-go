@@ -36,6 +36,10 @@ func runPostgresContainer(t *testing.T, ctx context.Context, dbName string) *pos
 }
 
 func TestRunMigrations_Integration_AppliesEmbeddedMigrations(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping postgres migrations integration test in -short mode")
+	}
+
 	ctx := context.Background()
 	ctr := runPostgresContainer(t, ctx, "migrations_test")
 	defer func() {
@@ -63,6 +67,10 @@ func TestRunMigrations_Integration_AppliesEmbeddedMigrations(t *testing.T) {
 }
 
 func TestRunMigrations_Integration_Idempotent_ReturnsNilWhenUpToDate(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping postgres migrations integration test in -short mode")
+	}
+
 	ctx := context.Background()
 	ctr := runPostgresContainer(t, ctx, "migrations_idempotent_test")
 	defer func() {
@@ -86,6 +94,10 @@ func TestRunMigrations_Integration_Idempotent_ReturnsNilWhenUpToDate(t *testing.
 }
 
 func TestRunMigrations_Integration_CustomFS_AppliesAndVerifies(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping postgres migrations integration test in -short mode")
+	}
+
 	ctx := context.Background()
 	ctr := runPostgresContainer(t, ctx, "migrations_custom_test")
 	defer func() {
