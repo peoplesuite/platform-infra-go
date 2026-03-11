@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"os"
 	"testing"
 	"testing/fstest"
 
@@ -36,8 +37,8 @@ func runPostgresContainer(t *testing.T, ctx context.Context, dbName string) *pos
 }
 
 func TestRunMigrations_Integration_AppliesEmbeddedMigrations(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping postgres migrations integration test in -short mode")
+	if testing.Short() || os.Getenv("INTEGRATION_TESTS") == "" {
+		t.Skip("skipping postgres migrations integration test (short or INTEGRATION_TESTS not set)")
 	}
 
 	ctx := context.Background()
@@ -67,8 +68,8 @@ func TestRunMigrations_Integration_AppliesEmbeddedMigrations(t *testing.T) {
 }
 
 func TestRunMigrations_Integration_Idempotent_ReturnsNilWhenUpToDate(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping postgres migrations integration test in -short mode")
+	if testing.Short() || os.Getenv("INTEGRATION_TESTS") == "" {
+		t.Skip("skipping postgres migrations integration test (short or INTEGRATION_TESTS not set)")
 	}
 
 	ctx := context.Background()
@@ -94,8 +95,8 @@ func TestRunMigrations_Integration_Idempotent_ReturnsNilWhenUpToDate(t *testing.
 }
 
 func TestRunMigrations_Integration_CustomFS_AppliesAndVerifies(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping postgres migrations integration test in -short mode")
+	if testing.Short() || os.Getenv("INTEGRATION_TESTS") == "" {
+		t.Skip("skipping postgres migrations integration test (short or INTEGRATION_TESTS not set)")
 	}
 
 	ctx := context.Background()

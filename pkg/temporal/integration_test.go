@@ -3,6 +3,7 @@ package temporal
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
@@ -55,6 +56,10 @@ func temporalEndpoint(t *testing.T, ctx context.Context, ctr testcontainers.Cont
 }
 
 func TestClient_Integration_ConnectAndHealthCheck(t *testing.T) {
+	if testing.Short() || os.Getenv("INTEGRATION_TESTS") == "" {
+		t.Skip("skipping temporal integration test (short or INTEGRATION_TESTS not set)")
+	}
+
 	ctx := context.Background()
 	ctr := runTemporalContainer(t, ctx)
 	defer func() {
@@ -80,6 +85,10 @@ func TestClient_Integration_ConnectAndHealthCheck(t *testing.T) {
 }
 
 func TestClient_Integration_NewFromConfig(t *testing.T) {
+	if testing.Short() || os.Getenv("INTEGRATION_TESTS") == "" {
+		t.Skip("skipping temporal integration test (short or INTEGRATION_TESTS not set)")
+	}
+
 	ctx := context.Background()
 	ctr := runTemporalContainer(t, ctx)
 	defer func() {
