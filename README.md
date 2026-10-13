@@ -104,6 +104,20 @@ platform-infra-go
 
 ---
 
+# Internal gRPC clients
+
+When calling another platform service (identity, settings, orgcontext, framework, pdp, etc.), **use [platform-sdk-go](https://github.com/peoplesuite/platform-sdk-go) typed client packages** instead of raw `grpc.Dial` or manual `*_ServiceClient` construction. Example:
+
+```go
+import sdkidentity "github.com/peoplesuite/platform-sdk-go/pkg/identityclient"
+
+client, err := sdkidentity.New(ctx, sdkidentity.Config{
+    Address: os.Getenv("IDENTITY_GRPC_HOST"),
+    Logger:  logger,
+    Timeout: 10 * time.Second,
+})
+```
+
 # Related Repositories
 
 ```
